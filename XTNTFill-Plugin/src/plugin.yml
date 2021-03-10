@@ -1,0 +1,15 @@
+main: dev.spinn.plugins.xtntfill.XTNTFill
+author: SpinKnight
+description: Feature-rich TNTFill plugin for Factions.
+name: XTNTFill
+version: 1.0.1
+depend: [Factions]
+commands:
+  tntfill:
+    aliases:
+      - xtntfill
+      - fill
+      - f tnt fill
+      - f tntfill
+    description: Fills nearby dispensers with specified amount of tnt.
+    usage: /tntfill <radius> <amount>
