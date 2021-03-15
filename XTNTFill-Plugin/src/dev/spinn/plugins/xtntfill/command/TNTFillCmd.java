@@ -27,7 +27,6 @@ public class TNTFillCmd implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         if (args.length >= 1 && args[0].equals("reload")) {
             if (sender.hasPermission("tntfill.reload")) {
                 plugin.reload();
@@ -46,7 +45,7 @@ public class TNTFillCmd implements CommandExecutor {
             return true;
         }
 
-        if (!adminMode && plugin.getFManager().hasTnTFillPerms(player)) {
+        if (plugin.getConfig().getBoolean("use-f-perms") && !adminMode && !plugin.getFManager().hasTnTFillPerms(player)) {
             Util.sendMessage(sender, plugin.getConfig().getString("lang.no-faction-permission"));
             return true;
         }

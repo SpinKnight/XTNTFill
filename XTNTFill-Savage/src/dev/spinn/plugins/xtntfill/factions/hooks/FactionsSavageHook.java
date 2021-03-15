@@ -12,7 +12,7 @@ public class FactionsSavageHook implements FManager {
     @Override
     public boolean hasTnTFillPerms(Player player) {
         FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
-        return !Permission.TNTFILL.has(player) && fPlayer.getRole() != Role.LEADER;
+        return Permission.TNTFILL.has(player) || fPlayer.getRole() == Role.LEADER;
     }
 
     @Override

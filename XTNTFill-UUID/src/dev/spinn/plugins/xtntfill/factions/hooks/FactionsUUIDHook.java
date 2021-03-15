@@ -13,7 +13,7 @@ public class FactionsUUIDHook implements FManager {
     @Override
     public boolean hasTnTFillPerms(Player player) {
         FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
-        return !Permission.TNT_FILL.has(player) && fPlayer.getRole() != Role.ADMIN;
+        return Permission.TNT_FILL.has(player) || fPlayer.getRole() == Role.ADMIN;
     }
 
     @Override
