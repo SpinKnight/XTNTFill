@@ -35,6 +35,11 @@ public class TNTFillCmd implements CommandExecutor {
             }
         }
 
+        if (!sender.hasPermission("tntfill.use")) {
+            Util.sendMessage(sender, plugin.getConfig().getString("lang.no-permission"));
+            return true;
+        }
+
         Player player = (Player) sender;
         FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
 

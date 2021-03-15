@@ -9,7 +9,5 @@ commands:
     aliases:
       - xtntfill
       - fill
-      - f tnt fill
-      - f tntfill
     description: Fills nearby dispensers with specified amount of tnt.
     usage: /tntfill <radius> <amount>

@@ -24,6 +24,7 @@ lang:
   amount-too-small: '&cAmount too small, please specify a radius between &e$min &cand &e$max&c.'
   dispensers-full: '&cAll nearby dispensers are filled.'
   filled-dispensers: '&bYou have filled &d$dispensers &bnearby dispensers with about &d$amount &bTNT each and a total of &d$total&b TNT (&d$left &bTNT left).'
+  no-permission: '&cYou don''t have permissions to use this command.'
   no-dispensers-nearby: '&cNo nearby dispensers were found in radius $radius.'
   no-faction: '&cYou do not have a faction yet. Create or join one to use start using /tntfill.'
   no-faction-permission: '&cYour faction does not allow you to use tntfill.'
