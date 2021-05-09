@@ -3,13 +3,20 @@ package dev.spinn.plugins.xtntfill.command;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import dev.spinn.plugins.xtntfill.XTNTFill;
+import dev.spinn.plugins.xtntfill.util.Pair;
 import dev.spinn.plugins.xtntfill.util.Util;
+import io.netty.util.internal.ConcurrentSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class TNTFillCmd implements CommandExecutor {
 
+    private final Set<UUID> fillers = new ConcurrentSet<>();
     private final XTNTFill plugin;
 
     public TNTFillCmd(XTNTFill plugin) {
@@ -105,7 +113,13 @@ public class TNTFillCmd implements CommandExecutor {
             return true;
         }
 
-//        Fetch dispensers in radius and count how much can be filled.
+        // Are they already filling?
+        if (fillers.contains(player.getUniqueId())) {
+            Util.sendMessage(sender, plugin.getConfig().getString("lang.filling-already"));
+            return true;
+        }
+
+        // Fetch dispensers in radius and count how much can be filled.
         int slots = 9;
         int maxItems = slots * 64;
         int total = 0;
@@ -113,7 +127,7 @@ public class TNTFillCmd implements CommandExecutor {
         int allDispensers = 0;
         Block center = player.getLocation().getBlock();
         Block block;
-        HashMap<Block, Integer> dispensers = new HashMap<>();
+        HashMap<Block, Pair<BlockState, Integer>> dispensers = new HashMap<>();
         for (int x = -(radius); x <= radius; x ++){
             for (int y = -(radius); y <= radius; y ++) {
                 for (int z = -(radius); z <= radius; z ++) {
@@ -121,8 +135,8 @@ public class TNTFillCmd implements CommandExecutor {
                     if (block.getType() == Material.DISPENSER) {
                         allDispensers++;
 
-                        InventoryHolder inventoryHolder = (InventoryHolder) block.getState();
-                        Inventory inventory = inventoryHolder.getInventory();
+                        BlockState state = block.getState();
+                        Inventory inventory = ((InventoryHolder) state).getInventory();
 
                         int has = 0;
                         for (ItemStack itemStack : inventory.getContents()) {
@@ -139,7 +153,7 @@ public class TNTFillCmd implements CommandExecutor {
 
                         int space = maxItems - has;
                         if (space > 0) {
-                            dispensers.put(block, space);
+                            dispensers.put(block, new Pair<>(state, space));
                         }
 
                     }
@@ -164,7 +178,7 @@ public class TNTFillCmd implements CommandExecutor {
 
         ArrayList<Integer> filled = new ArrayList<>();
         for (Block dispenser : dispensers.keySet()) {
-            int fill = Math.min(fillAmount, dispensers.get(dispenser));
+            int fill = Math.min(fillAmount, dispensers.get(dispenser).getRight());
             total += fill;
             filled.add(fill);
         }
@@ -187,13 +201,16 @@ public class TNTFillCmd implements CommandExecutor {
 
         if (!adminMode) plugin.getFManager().takeTnt(player, total);
 
-//        Fill dispensers
-        for (Block dispenser : dispensers.keySet()) {
-            InventoryHolder inventoryHolder = (InventoryHolder) dispenser.getState();
-            Inventory inventory = inventoryHolder.getInventory();
-            inventory.addItem(new ItemStack(Material.TNT, fillAmount));
-            dispenser.getState().update();
-        }
+        // Fill dispensers
+        final ItemStack tntItem = new ItemStack(Material.TNT, fillAmount);
+        fillers.add(player.getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            for (Map.Entry<Block, Pair<BlockState, Integer>> entry : dispensers.entrySet()) {
+                ((InventoryHolder) entry.getValue().getLeft()).getInventory().addItem(tntItem.clone());
+                entry.getValue().getLeft().update(false, false);
+            }
+            fillers.remove(player.getUniqueId());
+        });
 
         Util.sendMessage(sender, plugin.getConfig().getString("lang.filled-dispensers").replace("$dispensers", dispensers.size() + "").replace("$amount", fillAmount + "").replace("$radius", radius + "").replace("$total", total + "").replace("$left", plugin.getFManager().getTnt(player) + ""));
         return true;

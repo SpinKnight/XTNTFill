@@ -46,8 +46,6 @@ public class XTNTFill extends JavaPlugin {
     public void reload() {
         saveDefaultConfig();
         reloadConfig();
-        getConfig().options().copyDefaults(true);
-        saveConfig();
         this.fHook = new FHook(this);
         fHook.setup();
     }

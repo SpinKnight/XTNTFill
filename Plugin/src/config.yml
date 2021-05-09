@@ -35,3 +35,4 @@ lang:
   radius-missing: '&7You need to specify a radius with &e/tntfill <radius> <amount>&7.'
   radius-too-big: '&cRadius too large, please specify a radius between &e$min &cand &e$max&c.'
   radius-too-small: '&cRadius too small, please specify a radius between &e$min &cand &e$max&c.'
+  filling-already: '&cYou already have an ongoing TNTFill operation. Please wait for it to finish.'
