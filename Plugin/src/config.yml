@@ -4,35 +4,45 @@
 #  - Example: /tntfill 5 100 would fill dispensers in radius 5 with 100 TNT each. Assuming 10 dispensers were found, each dispenser would be filled with 100 TNT.
 # rank-settings permissions: tntfill.ranks.god
 min-radius: 1
-max-radius: 20
+max-radius: 35
 min-amount: 1
-max-amount: 64
+max-amount: 576
 strict-fill: true
 use-f-perms: true
 rank-settings:
   elite:
-    max-radius: 25
+    max-radius: 40
   god:
-    max-radius: 35
+    max-radius: 50
 cmd-aliases:
   - f tntfill
   - f tnt fill
 lang:
-  amount-cant-fill: '&cAmount was too small to fill at least 1 TNT in &e$dispensers &cnearby dispensers. You need at least &e$dispensers &cTNT.'
+  amount-cant-fill: '&cAmount was too small to fill at least 1 TNT in &e$dispensers
+    &cnearby dispensers. You need at least &e$dispensers &cTNT.'
   amount-missing: '&7You need to specify an amount with &e/tntfill <radius> <amount>&7.'
-  amount-too-big: '&cAmount too large, please specify a radius between &e$min &cand &e$max&c.'
-  amount-too-small: '&cAmount too small, please specify a radius between &e$min &cand &e$max&c.'
+  amount-too-big: '&cAmount too large, please specify a radius between &e$min &cand
+    &e$max&c.'
+  amount-too-small: '&cAmount too small, please specify a radius between &e$min &cand
+    &e$max&c.'
   dispensers-full: '&cAll nearby dispensers are filled.'
-  filled-dispensers: '&bYou have filled &d$dispensers &bnearby dispensers with about &d$amount &bTNT each and a total of &d$total&b TNT (&d$left &bTNT left).'
+  filled-dispensers: '&bYou have filled &d$dispensers &bnearby dispensers with about
+    &d$amount &bTNT each and a total of &d$total&b TNT (&d$left &bTNT left).'
   no-permission: '&cYou don''t have permissions to use this command.'
   no-dispensers-nearby: '&cNo nearby dispensers were found in radius $radius.'
-  no-faction: '&cYou do not have a faction yet. Create or join one to use start using /tntfill.'
-  no-faction-permission: '&cYour faction does not allow you to use tntfill.'
+  no-faction: '&cYou do not have a faction yet. Create or join one to use start using
+    /tntfill.'
+  no-faction-permission: '&cYou do not have access to use the faction tntfill.'
   not-a-number: '&e$number &7is not a number. Use &e/tntfill <radius> <amount>&7.'
   not-enough-arguments: '&7Use &e/tntfill <radius> <amount> &7to fill nearby dispensers.'
-  not-enough-tnt: '&cThe faction bank does not have enough tnt to fill &e$dispensers&c nearby dispensers with about &e$amount&c each. &cYou need &e$needed&c more out of &e$total&c total TNT.\n&cAdd more TNT with &e/f tnt add <amount>&c.'
+  not-enough-tnt: '&cThe faction bank does not have enough tnt to fill &e$dispensers&c
+    nearby dispensers with about &e$amount&c each. &cYou need &e$needed&c more out
+    of &e$total&c total TNT.\n&cAdd more TNT with &e/f tnt add <amount>&c.'
   plugin-reloaded: '&aThe plugin has been reloaded.'
   radius-missing: '&7You need to specify a radius with &e/tntfill <radius> <amount>&7.'
-  radius-too-big: '&cRadius too large, please specify a radius between &e$min &cand &e$max&c.'
-  radius-too-small: '&cRadius too small, please specify a radius between &e$min &cand &e$max&c.'
-  filling-already: '&cYou already have an ongoing TNTFill operation. Please wait for it to finish.'
+  radius-too-big: '&cRadius too large, please specify a radius between &e$min &cand
+    &e$max&c.'
+  radius-too-small: '&cRadius too small, please specify a radius between &e$min &cand
+    &e$max&c.'
+  filling-already: '&cYou already have an ongoing TNTFill operation. Please wait for
+    it to finish.'
